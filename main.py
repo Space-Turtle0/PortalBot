@@ -5,7 +5,7 @@ from datetime import datetime
 import asyncio
 from pathlib import Path
 
-from core.config import prompt_config, load_config
+from core.common import prompt_config, load_config
 import core.keep_alive as keep_alive
 import core.bcolors as bcolors
 
@@ -57,11 +57,12 @@ async def on_ready():
     print(f"{bcolors.OKGREEN}BOT TYPE: {bcolors.ENDC}" + config['BotType'])
     print(f"{bcolors.WARNING}ID: {client.user.id}{bcolors.ENDC}")
     print(f"{bcolors.WARNING}URL: https://discord.com/oauth2/authorize?client_id={client.user.id}&scope=bot&permissions=8{bcolors.ENDC}")
-
     now = datetime.now().strftime("%H:%M:%S")
     print("Current Time =", now)
-
     await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.watching, name=f"over the Portal! | {config['prefix']}help"))
+    channel = client.get_channel(792485617954586634)
+    embed = discord.Embed(title = f"{client.user.name} is back up!", description = "Time: " + now, color = 0x3df5a2)
+    await channel.send(embed=embed)
 
 keep_alive.keep_alive()  # webserver setup, used w/ REPL
 
@@ -112,10 +113,10 @@ async def load(ctx, ext):
 @commands.has_role('Bot Manager')
 async def reload(ctx, ext):
     if ext == "all":
+        embed = discord.Embed(
+            title="Cogs - Reload", description="Reloaded all cogs", color=0xd6b4e8)
         for extension in get_extensions():
             client.reload_extension(extension)
-            embed = discord.Embed(
-                title="Cogs - Reload", description="Reloaded all cogs", color=0xd6b4e8)
         await ctx.send(embed=embed)
         return
 

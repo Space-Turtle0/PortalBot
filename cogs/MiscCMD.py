@@ -1,5 +1,5 @@
+from core.common import load_config
 from pathlib import Path
-from core.config import load_config
 import discord
 from discord.ext import commands
 from discord import Webhook, AsyncWebhookAdapter
@@ -47,9 +47,9 @@ class MiscCMD(commands.Cog):
         if after.id == 777361919211732993:
             if after.status == discord.Status.offline and before.status != discord.Status.offline:
                 channel = self.bot.get_channel(792485617954586634)
-                timestamp = datetime.now()
-                embed = discord.Embed(title = "⚠️ PortalBot is offline!", description = "Recorded Downtime (start): " + str(datetime.utcnow) , color = 0xf03224)
-                embed.add_field(name = "Restart Link", value = "https://repl.it/join/ohvpqkio-rohitturtle0")
+                now = datetime.now().strftime("%H:%M:%S")
+                embed = discord.Embed(title = "⚠️ PortalBot is offline!", description = "Recorded Downtime (start): " + str(now) , color = 0xf03224)
+                embed.add_field(name = "Restart Link", value = "__https://repl.it/join/ohvpqkio-rohitturtle0__")
                 await channel.send(embed = embed)
 
 
